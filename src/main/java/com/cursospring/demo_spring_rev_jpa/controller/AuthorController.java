@@ -13,68 +13,68 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cursospring.demo_spring_rev_jpa.dao.AuthorDAO;
 import com.cursospring.demo_spring_rev_jpa.entities.Author;
 import com.cursospring.demo_spring_rev_jpa.entities.InfoAuthor;
 import com.cursospring.demo_spring_rev_jpa.projection.AuthorInfoProjection;
+import com.cursospring.demo_spring_rev_jpa.service.AuthorService;
 
 @RestController
 @RequestMapping("autores")
 public class AuthorController {
 
 	@Autowired
-	private AuthorDAO dao;
+	private AuthorService service;
 
 	@PostMapping
 	public Author salvar(@RequestBody Author autor) {
-		dao.save(autor);
+		service.save(autor);
 		return autor;
 	}
 
 	@PutMapping
 	public Author atualizar(@RequestBody Author autor) {
-		dao.update(autor);
+		service.update(autor);
 		return autor;
 	}
 
 	@DeleteMapping("{id}")
 	public String remover(@PathVariable Long id) {
-		dao.delete(id);
+		service.delete(id);
 		return "Author id = " + id + " foi excluido com sucesso.";
 	}
 
 	@GetMapping("{id}")
 	public Author getById(@PathVariable Long id) {
-		return dao.findById(id);
+		return service.findById(id);
 	}
 
 	@GetMapping
 	public List<Author> getAll() {
-		return dao.findAll();
+		return service.findAll();
 	}
 
 	@GetMapping("nomeOrSobrenome")
 	public List<Author> getAutoresByNomeOrSobrenome(@RequestParam String termo) {
-		return dao.findAllByNomeOrSobrenome(termo);
+		return service.findAllByNomeOrSobrenome(termo);
 	}
 	
 	@GetMapping("total")
 	public Long getTotalAutores() {
-		return dao.getTotalElements();
+		return service.getTotalElements();
 	}
 	
 	@PutMapping("{id}/info")
 	public Author salvarInfoAutor(@PathVariable Long id, @RequestBody InfoAuthor infoAutor) {
-		return dao.saveInfoAutor(infoAutor, id);
+		return service.saveInfoAutor(infoAutor, id);
 	}
 	
 	@GetMapping("info")
 	public List<Author> salvarInfoAutor(@RequestParam String cargo) {
-		return dao.findByCargo(cargo);
+		return service.findByCargo(cargo);
 	}
 	
 	@GetMapping("autor-info")
 	public AuthorInfoProjection salvarInfoAutor(@RequestParam Long id) {
-		return dao.findAutorInfoById(id);
+		return service.findAutorInfoById(id);
 	}
 }

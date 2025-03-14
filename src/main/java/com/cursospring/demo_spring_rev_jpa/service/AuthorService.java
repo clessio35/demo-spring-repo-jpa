@@ -1,35 +1,42 @@
-package com.cursospring.demo_spring_rev_jpa.dao;
+package com.cursospring.demo_spring_rev_jpa.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cursospring.demo_spring_rev_jpa.entities.Author;
 import com.cursospring.demo_spring_rev_jpa.entities.InfoAuthor;
 import com.cursospring.demo_spring_rev_jpa.projection.AuthorInfoProjection;
+import com.cursospring.demo_spring_rev_jpa.repository.AuthorRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-@Repository
-public class AuthorDAO {
+@Service
+public class AuthorService {
+	
+	@Autowired
+	private AuthorRepository repository;
 
 	@PersistenceContext
 	private EntityManager manager;
 
+	
+	@Transactional(readOnly = false)
 	public void save(Author author) {
-		this.manager.persist(author);
+		this.repository.save(author);
 	}
 
 	@Transactional(readOnly = false)
 	public void update(Author author) {
-		this.manager.merge(author);
+		this.repository.save(author);
 	}
 
 	@Transactional(readOnly = false)
 	public void delete(Long id) {
-		this.manager.remove(this.manager.getReference(Author.class, id));
+		this.repository.deleteById(id);
 	}
 
 	@Transactional(readOnly = false)
