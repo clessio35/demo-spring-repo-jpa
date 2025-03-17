@@ -76,12 +76,6 @@ public class AuthorService {
 	
 	@Transactional(readOnly = true)
 	public AuthorInfoProjection findAutorInfoById(Long id){
-		String query = """
-				select new AuthorInfoProjection(a.nome, a.sobrenome, a.infoAuthor.cargo, a.infoAuthor.bio)
-				from Author a
-				where a.id = :id
-				""";
-		return this.manager.createQuery(query, AuthorInfoProjection.class)
-				.setParameter("id", id).getSingleResult();
+		return this.repository.findAutorInfoById(id);
 	}
 }

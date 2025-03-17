@@ -1,28 +1,14 @@
 package com.cursospring.demo_spring_rev_jpa.projection;
 
-public class AuthorInfoProjection {
+import org.springframework.beans.factory.annotation.Value;
 
-	private String nomeCompleto;
-	private String cargo;
-	private String bio;
+public interface AuthorInfoProjection {
 
-	public AuthorInfoProjection(String nome, String sobrenome, String cargo, String bio) {
-		super();
-		this.nomeCompleto = nome + " " + sobrenome;
-		this.cargo = cargo;
-		this.bio = bio;
-	}
-
-	public String getNomeCompleto() {
-		return nomeCompleto;
-	}
-
-	public String getCargo() {
-		return cargo;
-	}
-
-	public String getBio() {
-		return bio;
-	}
+	@Value("#{target.nome + ' ' + target.sobrenome}")
+	String getNomeCompleto();
+	
+	String getCargo();
+	
+	String getBio();
 
 }
