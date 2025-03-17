@@ -41,13 +41,14 @@ public class AuthorService {
 
 	@Transactional(readOnly = false)
 	public Author findById(long id) {
-		return this.manager.find(Author.class, id);
+//		return this.repository.findById(id).get();
+		return this.repository.findById(id).orElseThrow(
+				() -> new RuntimeException("Author id= " + id + " não encontrado."));
 	}
 
 	@Transactional(readOnly = false)
 	public List<Author> findAll() {
-		String query = "select a from Author a";
-		return this.manager.createQuery(query, Author.class).getResultList();
+		return this.repository.findAll();
 	}
 
 	@Transactional(readOnly = false)
@@ -60,9 +61,7 @@ public class AuthorService {
 	
 	@Transactional(readOnly = true)
 	public Long getTotalElements() {
-		String query = "select count(1) from Autor a ";
-		return this.manager.createQuery(query, Long.class)
-				.getSingleResult();
+		return this.repository.count();
 	}
 	
 	@Transactional(readOnly = false)
