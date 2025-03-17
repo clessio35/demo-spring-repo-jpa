@@ -53,10 +53,7 @@ public class AuthorService {
 
 	@Transactional(readOnly = false)
 	public List<Author> findAllByNomeOrSobrenome(String termo) {
-		String query = "select a from Autor a " + 
-						"where a.nome like :termo OR a.sobrenome like :termo";
-		return this.manager.createQuery(query, Author.class)
-				.setParameter("termo", "%" + termo + "%").getResultList();
+		return this.repository.findAllByNomeOrSobrenome("%" + termo + "%");
 	}
 	
 	@Transactional(readOnly = true)
@@ -73,13 +70,8 @@ public class AuthorService {
 	
 	@Transactional(readOnly = true)
 	public List<Author> findByCargo(String cargo){
-		String query = """
-				select a from Author a
-				where a.infoAuthor.cargo like :cargo 
-				order by a.nome asc
-				""";
-		return this.manager.createQuery(query, Author.class)
-				.setParameter("cargo", "%" + cargo + "%").getResultList();
+		return this.repository.findByCargo("%" + cargo + "%");
+		
 	}
 	
 	@Transactional(readOnly = true)

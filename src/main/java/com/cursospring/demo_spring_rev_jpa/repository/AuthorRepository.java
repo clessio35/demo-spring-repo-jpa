@@ -13,4 +13,7 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
 	@Query("select a from Author a where a.infoAuthor.cargo like :cargo order by a.nome asc")
 	List<Author> findByCargo(@Param("cargo") String cargo);
 
+	@Query("select a from Author a where a.nome like :termo OR a.sobrenome like :termo")
+	List<Author> findAllByNomeOrSobrenome(String termo);
+
 }
