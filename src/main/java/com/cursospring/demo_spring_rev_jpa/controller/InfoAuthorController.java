@@ -27,4 +27,9 @@ public class InfoAuthorController {
 	public List<InfoAuthor> getContainsCargo(@PathVariable String cargo) {
 		return service.findAllContainsCargo(cargo);
 	}
+	
+	@GetMapping("cargo/{cargo}/empresa/{empresa}")
+	public List<InfoAuthor> getContainsCargo(@PathVariable String cargo, @PathVariable String empresa) {
+		return service.findAllCargoAndEmpresa(cargo, empresa);
+	}
 }
